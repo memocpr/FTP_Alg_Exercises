@@ -9,7 +9,10 @@ random sampling heuristic for generating TSP solution.
 
 import random
 import sys
-import heuristics.problems.tsp.utils.helpers as hlp
+try:
+    import heuristics.problems.tsp.utils.helpers as hlp
+except Exception:
+    from .problems.tsp.utils import helpers as hlp
 
 
 class TspRandomSampling:
@@ -17,7 +20,8 @@ class TspRandomSampling:
     def generate(instance, numTries):
         solution = instance.clonePointList()
         bestDistance = sys.float_info.max
- 
+        bestSolution = solution.copy()
+
         for i in range(numTries):
             random.shuffle(solution)
             distance = hlp.Helpers.euclideanDistance2DList(solution)
