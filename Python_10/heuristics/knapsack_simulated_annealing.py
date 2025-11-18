@@ -7,11 +7,20 @@ Demo for KNAPSACK solutions generated with simulated annealing metaheuristic.
 @author: beer
 """
 
+import os
 import random
+import sys
 
+# ensure Python_10 root is importable when running the module directly
+PYTHON10_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+if PYTHON10_ROOT not in sys.path:
+    sys.path.insert(0, PYTHON10_ROOT)
+
+# annealing core with schedule/configuration utilities
 import heuristics.metaheuristics.simulated_annealing.anneal as sa
 
 
+# wraps Annealer with knapsack-specific move/energy definitions
 class KnapsackSimulatedAnnealing(sa.Annealer):
 
     # pass extra data (if any) into the constructor
@@ -20,6 +29,7 @@ class KnapsackSimulatedAnnealing(sa.Annealer):
 
 
     def move(self):
+        # mutates the current knapsack by toggling one random item bit
         while True:
             # flip a single bit randomly selected
             a = random.randint(0, self.state.getNumItems()-1)
@@ -69,4 +79,3 @@ class KnapsackSimulatedAnnealing(sa.Annealer):
     def findSolution(self):
         solution, neg_val = self.anneal()
         return solution, -neg_val
-    
